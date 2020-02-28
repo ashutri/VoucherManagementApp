@@ -9,7 +9,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DB=kanban
+      - POSTGRES_DB=VoucherManagement
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=@123
 
