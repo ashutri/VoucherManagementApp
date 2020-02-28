@@ -6,7 +6,7 @@ import java.util.List;
 public interface ConsumerDaoInterface {
 
 	List<Consumer> findAll();
-	void insertConsumer(List<String> list, Long mobile);
+	void insertConsumer(ConsumerInfo conInfo);
 	void updateConsumer(Consumer con);
 	String redeemId(String voucherId);
 }

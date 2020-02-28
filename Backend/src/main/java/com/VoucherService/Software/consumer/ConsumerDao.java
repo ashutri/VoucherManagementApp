@@ -5,7 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
 import com.VoucherService.Software.generator.Generator;
@@ -18,7 +22,7 @@ public class ConsumerDao implements ConsumerDaoInterface{
 	@Autowired
 	private Generator generator;
 
-	
+
 	NamedParameterJdbcTemplate template; 
 	public ConsumerDao(NamedParameterJdbcTemplate template) {  
 		this.template = template;  
@@ -28,20 +32,14 @@ public class ConsumerDao implements ConsumerDaoInterface{
 	public List<Consumer> findAll() {
 		return template.query("select * from consumer", new ConsumerRowMapper());
 	}
-	
 
-	@Override
-	public void insertConsumer(List<String> list, Long mobile) {
-		for(int i=0;i<list.size();i++)
-		{
-			
-		}
-	}
+
+
 
 	@Override
 	public void updateConsumer(Consumer con) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public List<Generator> findConsumer(Long mobile) {
@@ -61,12 +59,31 @@ public class ConsumerDao implements ConsumerDaoInterface{
 	public String redeemId(String voucherId) {
 		String res="Voucher is InValid";
 		List<Consumer> con=template.query("select * from consumer where voucher_id='"+voucherId+"'", new ConsumerRowMapper());
-		
+
 		if(!con.isEmpty())
 			res="Voucher is Redeemed";
-		
+
 		return res;
 	}
 
-	
+	@Override
+	public void insertConsumer(ConsumerInfo conInfo) {		
+		int len=conInfo.getvArray().length;
+		for(int i=0;i<len;i++)
+		{
+			final String sql = "insert into consumer(id, \"mobile\", \"voucher_id\")"
+					+ " values(:id,:mobile,:voucherId)";
+
+			KeyHolder holder = new GeneratedKeyHolder();
+			SqlParameterSource param = new MapSqlParameterSource()
+					.addValue("id", i+1)
+					.addValue("mobile", conInfo.getMobile())
+					.addValue("voucherId", conInfo.getvArray()[i]);
+
+					template.update(sql,param, holder);
+		}
+
+	}
+
+
 }
