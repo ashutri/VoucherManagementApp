@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Admin } from "../admin";
+import { Consumer } from "../../consumer/consumer";
 import { AdminService } from "../admin.service";
+import { ConsumerService } from "../../consumer/consumer.service";
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
@@ -12,36 +14,42 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
   providers: [AdminService, HttpClient]
 })
 export class AdminComponent implements OnInit {
+  
   selectedContact;
-  form:FormGroup;
+  successMessage: string;
+  addSuccess = false;
+  consumer:Consumer;
+  mobile:number;
+  private voucherId: string;
+  vArray: Array<string> = []; 
   private admins: Admin[];
   constructor(private router: Router,
-    private adminService: AdminService, private fb: FormBuilder) {
-      this.form = this.fb.group({
-        checkArray: this.fb.array([], [Validators.required])
-      }) 
+    private adminService: AdminService,private conService: ConsumerService) {
+      
     }
   ngOnInit() {
     this.getAllProducts();
+    
   }
-  submitForm() {
-    console.log(this.form.value)
-  }
-  onCheckboxChange(e) {
-    const checkArray: FormArray = this.form.get('checkArray') as FormArray;
-
-    if (e.target.checked) {
-      checkArray.push(new FormControl(e.target.value));
-    } else {
-      let i: number = 0;
-      checkArray.controls.forEach((item: FormControl) => {
-        if (item.value == e.target.value) {
-          checkArray.removeAt(i);
-          return;
-        }
-        i++;
-      });
+  
+  getNumber()
+  {
+    this.consumer={
+      vArray:this.vArray,
+      mobile:this.mobile
     }
+    this.conService.create(this.consumer);
+    this.addSuccess = true;
+    this.successMessage = 'Vouchers added to '+this.mobile;
+  }
+
+  addVoucher(voucherId:string, event){ 
+    if(event.srcElement.innerHTML ==='+' ){
+      //// perform add action
+      event.srcElement.innerHTML="@";
+    }   
+    this.vArray.push(voucherId);
+    console.log(this.vArray);
   }
   getAllProducts() {
     this.adminService.findAll().then(

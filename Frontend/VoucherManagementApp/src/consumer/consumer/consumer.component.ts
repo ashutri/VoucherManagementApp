@@ -10,6 +10,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providers: [ConsumerService, HttpClient]
 })
 export class ConsumerComponent implements OnInit {
+  selectedContact;
   mobile:number;
   private admins: Admin[];
   constructor(private router: Router,
@@ -27,6 +28,10 @@ export class ConsumerComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  public selectContact(admin){
+    this.selectedContact = admin;
   }
 
 }

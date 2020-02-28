@@ -8,7 +8,7 @@
                 <input type="text" class="form-control" id="mobile" [(ngModel)]="mobile" placeholder="Enter Mobile Number"
                   name="mobile">
               </div>              
-              <button (click)=getVoucer() class="btn btn-success">Login</button>
+              <button (click)=getVoucher() class="btn btn-success">Login</button>
             </form>
           </div>
         </div>
@@ -18,7 +18,6 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>#</th>
               <th>Voucher Code</th>
               <th>Amount</th>
               <th>Start date</th>
@@ -28,7 +27,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let admin of admins">
-              <td><input type="checkbox" [value]="admin.value"  /></td>
               <td>{{ admin.voucherId }}</td>
               <td> {{ admin.faceValue }}</td>
               <td> {{ admin.startDate }}</td>
@@ -52,7 +50,7 @@
               <p class="card-text">
                   Expire on: {{selectedContact.expiryDate}}
               </p>
-              s 
+              
             </div>
           </div>
           <br>

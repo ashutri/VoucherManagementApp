@@ -11,7 +11,7 @@ const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'logout', component: LoginComponent},
   {path: 'merchant', component: MerchantComponent},
-  {path: 'consumer/consumerList/:mobile', component: ConsumerComponent},
+  {path: 'consumer/consumerList/mobile', component: ConsumerComponent},
   {path: 'merchant/:voucherId', component: MerchantComponent},
   {path: 'merchant', component: MerchantComponent},
   {path: 'consumer', component: ConsumerComponent},
