@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+  postgres:
+    image: "postgres:9.6-alpine"
+    container_name: postgres
+    volumes:
+      - voucher-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=kanban
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=@123
+
+  Backend:
+    build: ./Backend
+    container_name: Backend
+    environment:
+      - DB_SERVER=postgres
+    ports:
+      - 8900:8900
+    links:
+      - kanban-postgres
+
+  AngularManagementApp:
+    build: ./AngularManagementApp
+    container_name: AngularManagementApp
+    ports:
+      - 4200:80
+    links:
+      - Backend
+
+
+volumes:
+  voucher-data:
