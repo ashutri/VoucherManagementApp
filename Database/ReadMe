@@ -1,0 +1,7 @@
+This Dump file as backup of the Postgresql Database
+1. Database is created in pg-admin4
+2. To restore the database, please follow below steps.
+2.1 create a new database
+2.2 Right click on database and then click on Restore option.
+2.3 Give the file name as NewVoucher file when done pasting this file in Documents folder.
+2.4 In Restore option select only schema.
